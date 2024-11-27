@@ -3,9 +3,9 @@ version: "1.0.0"
 slug: "addon"
 description: "Control GPIO pins using lgpio"
 arch:
-  - "armv7"
-  - "arm64"
-  - "amd64"
+  - armv7
+  - arm64
+  - amd64
 startup: "application"
 boot: "auto"
 
