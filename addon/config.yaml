@@ -11,6 +11,7 @@ arch:
 startup: application
 boot: manual
 full_access: true
+privileged: true
 options: {}
 schema: {}
 
