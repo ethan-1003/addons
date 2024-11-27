@@ -10,5 +10,14 @@ arch:
   - i386
 startup: application
 boot: manual
+
+privileged:
+  - SYS_RAWIO
+  - DAC_OVERRIDE
+
+devices:
+  - "/dev:/dev:rwm"
+
 options: {}
 schema: {}
+
