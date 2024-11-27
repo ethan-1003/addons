@@ -1,8 +1,7 @@
----
-name: addons
-version: 1.0.0
-slug: addon
-description: Control GPIO pins using lgpio
+name: "Simple Example Add-on"
+version: "1.0.0"
+slug: "simple_example"
+description: "A simple example add-on for testing."
 arch:
   - armhf
   - armv7
@@ -10,14 +9,6 @@ arch:
   - amd64
   - i386
 startup: application
-boot: auto
+boot: manual
 options: {}
 schema: {}
-host_network: true
-privileged:
-  - SYS_RAWIO
-  - DAC_OVERRIDE
-devices:
-  - /dev:/dev:rwm
-environment: []
-
