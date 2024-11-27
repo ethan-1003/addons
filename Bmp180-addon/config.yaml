@@ -1,0 +1,16 @@
+name: "Bmp180-addon"
+version: "1.0.0"
+slug: "bmp180"
+description: "Ethan"
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+startup: application
+boot: manual
+devices:
+  - "/dev/i2c-1:/dev/i2c-1:rwm"
+options: {}
+schema: {}
