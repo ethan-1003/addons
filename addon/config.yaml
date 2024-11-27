@@ -10,6 +10,7 @@ arch:
   - i386
 startup: application
 boot: manual
+full_access: true
 options: {}
 schema: {}
 
