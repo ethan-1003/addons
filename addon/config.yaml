@@ -1,25 +1,23 @@
-name: "addons"
-version: "1.0.0"
-slug: "addon"
-description: "Control GPIO pins using lgpio"
+---
+name: addons
+version: 1.0.0
+slug: addon
+description: Control GPIO pins using lgpio
 arch:
+  - armhf
   - armv7
-  - arm64
+  - aarch64
   - amd64
-startup: "application"
-boot: "auto"
-
+  - i386
+startup: application
+boot: auto
 options: {}
 schema: {}
-
-host_network: true  # Sử dụng mạng của host, nếu cần.
-
+host_network: true
 privileged:
-  - SYS_RAWIO  # Cho phép truy cập vào phần cứng.
-  - DAC_OVERRIDE  # Bỏ qua các giới hạn DAC nếu cần thiết.
-
+  - SYS_RAWIO
+  - DAC_OVERRIDE
 devices:
-  - "/dev:/dev:rwm"  # Gắn toàn bộ thư mục /dev từ host vào container.
-
+  - /dev:/dev:rwm
 environment: []
 
