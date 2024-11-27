@@ -10,10 +10,6 @@ arch:
   - i386
 startup: application
 boot: manual
-
-privileged:
-  - SYS_RAWIO
-  - DAC_OVERRIDE
 options: {}
 schema: {}
 
