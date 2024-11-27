@@ -10,7 +10,8 @@ arch:
   - i386
 startup: application
 boot: manual
-privileged: true
+devices:
+  - "/dev/gpiochip0:/dev/gpiochip0:rwm"
 options: {}
 schema: {}
 
