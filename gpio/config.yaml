@@ -9,7 +9,7 @@ arch:
 startup: application
 boot: manual
 options:
-  pins: [17,18]
+  pins: 
   state: "off"
 schema:
   pins: list?
