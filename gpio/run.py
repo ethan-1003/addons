@@ -3,7 +3,7 @@ import lgpio
 import time
 
 # Đường dẫn file cấu hình
-CONFIG_PATH = "options.json"
+CONFIG_PATH = "/data/options.json"
 
 # Hàm đọc file options.json
 def load_config():
