@@ -1,6 +1,6 @@
-name: "Bmp180-addon"
+name: "automation"
 version: "1.0.0"
-slug: "bmp180"
+slug: "auto"
 description: "Ethan"
 arch:
   - armhf
