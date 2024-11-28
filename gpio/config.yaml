@@ -9,10 +9,10 @@ arch:
 startup: application
 boot: manual
 options:
-  pins: 17
+  pin: 17
   state: "off"
 schema:
-  pins: int?
+  pin: int?
   state: str?
 devices:
    - "/dev/gpiochip0:/dev/gpiochip0:rwm"

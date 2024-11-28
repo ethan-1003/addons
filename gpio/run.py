@@ -1,5 +1,6 @@
 import json
 import lgpio
+import os
 import time
 
 # Đường dẫn file cấu hình
@@ -7,14 +8,24 @@ CONFIG_PATH = "/data/options.json"
 
 # Hàm đọc file options.json
 def load_config():
-    with open(CONFIG_PATH, "r") as f:
-        return json.load(f)
+    try:
+        # Kiểm tra nếu file không tồn tại
+        if not os.path.exists(CONFIG_PATH):
+            raise FileNotFoundError(f"Configuration file {CONFIG_PATH} not found.")
+
+        # Kiểm tra nếu file rỗng
+        if os.path.getsize(CONFIG_PATH) == 0:
+            raise ValueError(f"Configuration file {CONFIG_PATH} is empty.")
+
+        # Đọc file JSON
+        with open(CONFIG_PATH, "r") as f:
+            return json.load(f)
+    except json.JSONDecodeError as e:
+        raise ValueError(f"Invalid JSON in configuration file {CONFIG_PATH}: {e}")
 
 # Hàm thiết lập GPIO
 def setup_gpio(handle, pin, state):
-    # Khai báo chân GPIO ở chế độ output
     lgpio.gpio_claim_output(handle, pin)
-    # Đặt trạng thái cho chân (on = HIGH, off = LOW)
     lgpio.gpio_write(handle, pin, int(state == "on"))
     print(f"Set pin {pin} to {'HIGH' if state == 'on' else 'LOW'}")
 
@@ -22,10 +33,9 @@ def setup_gpio(handle, pin, state):
 def main():
     # Đọc cấu hình từ file options.json
     config = load_config()
-    pin = config.get("pin", None)  # Lấy giá trị pin
-    state = config.get("state", "off")  # Lấy trạng thái mặc định là "off"
+    pin = config.get("pin", None)
+    state = config.get("state", "off")
 
-    # Kiểm tra xem pin có được cấu hình không
     if pin is None:
         raise ValueError("No GPIO pin configured!")
 
@@ -35,17 +45,14 @@ def main():
     handle = lgpio.gpiochip_open(0)
 
     try:
-        # Thiết lập GPIO theo cấu hình
+        # Thiết lập GPIO
         setup_gpio(handle, pin, state)
-
-        # Giữ chương trình chạy
         print("GPIO configured. Running...")
         while True:
-            time.sleep(1)  # Giữ chương trình chạy (hoặc thêm logic khác nếu cần)
+            time.sleep(1)
     except KeyboardInterrupt:
         print("Exiting program...")
     finally:
-        # Đóng giao diện GPIO
         lgpio.gpiochip_close(handle)
         print("GPIO cleanup complete.")
 
