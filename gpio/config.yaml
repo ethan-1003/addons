@@ -9,25 +9,11 @@ arch:
 startup: application
 boot: manual
 options:
-  pins:
-    description: "List of GPIO pins to control"
-    type: list
-    required: true
-    default: [17, 18]
-  state:
-    description: "Default state of GPIO pins ('on' or 'off')"
-    type: string
-    required: true
-    default: "off"
+  pins: [17, 18]
+  state: "off"
 schema:
-  pins:
-    type: list
-    items:
-      type: integer
-  state:
-    type: string
-    enum:
-      - "on"
-      - "off"
+  pins: list(int)
+  state: str("on"|"off")
 devices:
    - "/dev/gpiochip0:/dev/gpiochip0:rwm"
+
