@@ -1,7 +1,7 @@
-name: "Simple Example Add-on"
+name: "turn_on"
 version: "1.0.0"
-slug: "simple_example"
-description: "A simple example add-on for testing."
+slug: "turn_on"
+description: "turn_on_gpio17"
 arch:
   - armhf
   - armv7
