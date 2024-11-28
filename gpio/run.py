@@ -3,7 +3,7 @@ import lgpio
 import time
 
 # Đường dẫn file cấu hình
-CONFIG_PATH = "option.json"
+CONFIG_PATH = "options.json"
 
 # Hàm đọc file options.json
 def load_config():
@@ -11,29 +11,32 @@ def load_config():
         return json.load(f)
 
 # Hàm thiết lập GPIO
-def setup_gpio(handle, pins, state):
-    for pin in pins:
-        # Khai báo chân GPIO ở chế độ output
-        lgpio.gpio_claim_output(handle, pin)
-        # Đặt trạng thái cho từng chân (on = HIGH, off = LOW)
-        lgpio.gpio_write(handle, pin, int(state == "on"))
-        print(f"Set pin {pin} to {'HIGH' if state == 'on' else 'LOW'}")
+def setup_gpio(handle, pin, state):
+    # Khai báo chân GPIO ở chế độ output
+    lgpio.gpio_claim_output(handle, pin)
+    # Đặt trạng thái cho chân (on = HIGH, off = LOW)
+    lgpio.gpio_write(handle, pin, int(state == "on"))
+    print(f"Set pin {pin} to {'HIGH' if state == 'on' else 'LOW'}")
 
 # Hàm chính
 def main():
     # Đọc cấu hình từ file options.json
     config = load_config()
-    pins = config.get("pins", [])
-    state = config.get("state", "off")
+    pin = config.get("pin", None)  # Lấy giá trị pin
+    state = config.get("state", "off")  # Lấy trạng thái mặc định là "off"
 
-    print(f"Configured pins: {pins}, State: {state}")
+    # Kiểm tra xem pin có được cấu hình không
+    if pin is None:
+        raise ValueError("No GPIO pin configured!")
+
+    print(f"Configured pin: {pin}, State: {state}")
 
     # Mở giao diện GPIO
     handle = lgpio.gpiochip_open(0)
 
     try:
         # Thiết lập GPIO theo cấu hình
-        setup_gpio(handle, pins, state)
+        setup_gpio(handle, pin, state)
 
         # Giữ chương trình chạy
         print("GPIO configured. Running...")
