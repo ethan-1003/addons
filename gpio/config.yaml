@@ -1,0 +1,33 @@
+name: "GPIO Control Add-on"
+version: "1.0.0"
+slug: "gpio_control"
+description: "Control GPIO pins on Raspberry Pi 5."
+arch:
+  - armhf
+  - armv7
+  - aarch64
+startup: application
+boot: manual
+options:
+  pins:
+    description: "List of GPIO pins to control"
+    type: list
+    required: true
+    default: [17, 18]
+  state:
+    description: "Default state of GPIO pins ('on' or 'off')"
+    type: string
+    required: true
+    default: "off"
+schema:
+  pins:
+    type: list
+    items:
+      type: integer
+  state:
+    type: string
+    enum:
+      - "on"
+      - "off"
+devices:
+   - "/dev/gpiochip0:/dev/gpiochip0:rwm"
