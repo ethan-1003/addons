@@ -1,0 +1,16 @@
+name: "Simple Example Add-on"
+version: "1.0.0"
+slug: "simple_example"
+description: "A simple example add-on for testing."
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+startup: application
+boot: manual
+devices:
+  - "/dev/gpiochip0:/dev/gpiochip0:rwm"
+options: {}
+schema: {}
