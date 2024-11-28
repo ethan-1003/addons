@@ -1,55 +1,51 @@
-import os
+import json
 import lgpio
-from flask import Flask, request, jsonify
+import time
 
-# Lấy cấu hình từ Home Assistant
-GPIO_PINS = list(map(int, os.getenv("SUPERVISOR_OPTION_PINS", "17,18").split(',')))
-DEFAULT_STATE = os.getenv("SUPERVISOR_OPTION_STATE", "off")
+# Đường dẫn file cấu hình
+CONFIG_PATH = "option.json"
 
-# Khởi tạo GPIO
-CHIP = 0
-h = lgpio.gpiochip_open(CHIP)
-for pin in GPIO_PINS:
-    lgpio.gpio_claim_output(h, pin)
-    lgpio.gpio_write(h, pin, 1 if DEFAULT_STATE == "on" else 0)
+# Hàm đọc file options.json
+def load_config():
+    with open(CONFIG_PATH, "r") as f:
+        return json.load(f)
 
-# Khởi tạo Flask app
-app = Flask(__name__)
+# Hàm thiết lập GPIO
+def setup_gpio(handle, pins, state):
+    for pin in pins:
+        # Khai báo chân GPIO ở chế độ output
+        lgpio.gpio_claim_output(handle, pin)
+        # Đặt trạng thái cho từng chân (on = HIGH, off = LOW)
+        lgpio.gpio_write(handle, pin, int(state == "on"))
+        print(f"Set pin {pin} to {'HIGH' if state == 'on' else 'LOW'}")
 
-@app.route('/gpio', methods=['POST'])
-def control_gpio():
-    """
-    API để điều khiển GPIO
-    Yêu cầu JSON:
-    {
-        "pins": [17, 18],
-        "state": "on"
-    }
-    """
-    data = request.json
-    pins = data.get("pins", GPIO_PINS)
-    state = data.get("state", DEFAULT_STATE)
+# Hàm chính
+def main():
+    # Đọc cấu hình từ file options.json
+    config = load_config()
+    pins = config.get("pins", [])
+    state = config.get("state", "off")
 
-    if not isinstance(pins, list) or state not in ["on", "off"]:
-        return jsonify({"error": "Invalid data. Provide a list of pins and 'on'/'off' state."}), 400
+    print(f"Configured pins: {pins}, State: {state}")
+
+    # Mở giao diện GPIO
+    handle = lgpio.gpiochip_open(0)
 
     try:
-        for pin in pins:
-            lgpio.gpio_write(h, pin, 1 if state == "on" else 0)
-        return jsonify({"message": f"GPIO pins {pins} set to {state}."})
-    except Exception as e:
-        return jsonify({"error": str(e)}), 500
+        # Thiết lập GPIO theo cấu hình
+        setup_gpio(handle, pins, state)
 
-@app.route('/gpio', methods=['GET'])
-def get_gpio_state():
-    """
-    API để lấy trạng thái hiện tại của nhiều chân GPIO
-    """
-    states = {pin: "on" if lgpio.gpio_read(h, pin) else "off" for pin in GPIO_PINS}
-    return jsonify(states)
+        # Giữ chương trình chạy
+        print("GPIO configured. Running...")
+        while True:
+            time.sleep(1)  # Giữ chương trình chạy (hoặc thêm logic khác nếu cần)
+    except KeyboardInterrupt:
+        print("Exiting program...")
+    finally:
+        # Đóng giao diện GPIO
+        lgpio.gpiochip_close(handle)
+        print("GPIO cleanup complete.")
 
 if __name__ == "__main__":
-    try:
-        app.run(host="0.0.0.0", port=5000)
-    except KeyboardInterrupt:
-        lgpio.gpiochip_close(h)
+    main()
+
