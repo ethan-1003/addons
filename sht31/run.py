@@ -35,8 +35,8 @@ HEADERS = {
 }
 
 # URL cho từng cảm biến
-TEMP_SENSOR_URL = f"{HA_BASE_URL}/sensor.bmp180_temperature"
-PRESSURE_SENSOR_URL = f"{HA_BASE_URL}/sensor.bmp180_pressure"
+TEMP_SENSOR_URL = f"{HA_BASE_URL}/sensor.sht31_temperature"
+HU_SENSOR_URL = f"{HA_BASE_URL}/sensor.sht31_humidity"
 
 i2c = busio.I2C(board.SCL, board.SDA)
 
@@ -76,7 +76,7 @@ while True:
             "friendly_name": "Humidity",
         },
     }
-    post_to_home_assistant(PRESSURE_SENSOR_URL, humidity_payload)
+    post_to_home_assistant(HU_SENSOR_URL, humidity_payload)
 
     # In dữ liệu ra màn hình
     print(f"Nhiệt độ: {temperature:.2f} °C")
