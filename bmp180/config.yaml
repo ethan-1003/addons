@@ -1,6 +1,6 @@
-name: "bmp180"
+name: "bmp180_1"
 version: "1.0.0"
-slug: "bmp180"
+slug: "bmp180_1"
 description: "Addon to read bmp180 sensor data and post to Home Assistant"
 arch:
   - armhf
