@@ -12,6 +12,7 @@ startup: application
 boot: manual
 devices:
   - "/dev/i2c-1:/dev/i2c-1:rwm"
+  - "/dev/gpiomem:/dev/gpiomem"
 options:
   api_base_url:
     description: "Base URL of Home Assistant API"
