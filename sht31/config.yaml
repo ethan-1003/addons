@@ -1,0 +1,28 @@
+name: "sht31"
+version: "1.0.0"
+slug: "sht31"
+description: "Addon to read bmp180 sensor data and post to Home Assistant"
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+startup: application
+boot: manual
+devices:
+  - "/dev/i2c-1:/dev/i2c-1:rwm"
+options:
+  api_base_url:
+    description: "Base URL of Home Assistant API"
+    type: str
+    required: true
+    example: "http://192.168.1.13:8123/api/states"
+  api_token:
+    description: "Long-Lived Access Token for Home Assistant API"
+    type: str
+    required: true
+    example: "your ll token"
+schema:
+  api_base_url: str
+  api_token: str
