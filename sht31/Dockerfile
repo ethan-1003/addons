@@ -12,9 +12,9 @@ RUN pip install --no-cache-dir \
     adafruit-circuitpython-dht \
     adafruit-blinka \
     RPi.GPIO \
+    smbus2 \
     requests
 RUN pip install adafruit-circuitpython-sht31d
-RUN pip install smbus
 # Sao chép mã ứng dụng vào container
 COPY run.py /run.py
 
