@@ -14,6 +14,7 @@ RUN pip install --no-cache-dir \
     RPi.GPIO \
     requests
 RUN pip install adafruit-circuitpython-sht31d
+RUN pip install smbus
 # Sao chép mã ứng dụng vào container
 COPY run.py /run.py
 

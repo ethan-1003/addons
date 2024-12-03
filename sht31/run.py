@@ -1,6 +1,5 @@
 import time
-import board
-import busio
+import smbus2
 import adafruit_sht31d
 import requests
 import json
@@ -38,10 +37,11 @@ HEADERS = {
 TEMP_SENSOR_URL = f"{HA_BASE_URL}/sensor.sht31_temperature"
 HU_SENSOR_URL = f"{HA_BASE_URL}/sensor.sht31_humidity"
 
-i2c = busio.I2C(board.SCL, board.SDA)
+# Khởi tạo bus I2C với smbus2
+i2c = smbus2.SMBus(1)  # Dùng bus I2C 1 trên Raspberry Pi
 
-# Khởi tạo cảm biến SHT31
-sht31 = adafruit_sht31d.SHT31D(i2c)
+# Khởi tạo cảm biến SHT31 với địa chỉ I2C là 0x44
+sht31 = adafruit_sht31d.SHT31D(i2c, address=0x44)
 
 # Hàm gửi dữ liệu đến Home Assistant
 def post_to_home_assistant(url, payload):
