@@ -1,7 +1,7 @@
 name: "sht31"
 version: "1.0.0"
 slug: "sht31"
-description: "Addon to read bmp180 sensor data and post to Home Assistant"
+description: "Addon to read sht31 sensor data and post to Home Assistant"
 arch:
   - armhf
   - armv7
