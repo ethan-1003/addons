@@ -1,15 +1,23 @@
+import json
 from bmp280 import BMP280
 from smbus2 import SMBus
 import requests
 import time
+
+# Đọc cấu hình từ file JSON
+def load_config():
+    with open('config.json', 'r') as f:
+        return json.load(f)
+
+config = load_config()
+HA_BASE_URL = config.get("api_base_url")
+HA_TOKEN = config.get("api_token")
 
 # Khởi tạo SMBus
 bus = SMBus(1)
 
 # Khởi tạo cảm biến BMP280
 bmp280 = BMP280(i2c_dev=bus)
-HA_BASE_URL = "http://192.168.137.253:8123/api/states"
-HA_TOKEN = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI0ODgyY2UxNmE0YjE0ODEwYTVhMGQzZmFlMzA4OGQ4YyIsImlhdCI6MTczMzE3Nzk4MSwiZXhwIjoyMDQ4NTM3OTgxfQ.5D2N2JFy1JzkHKc7-cR1Eo8eyO4Erke0hZOZqiX1FkE"
 
 HEADERS = {
     "Authorization": f"Bearer {HA_TOKEN}",
@@ -55,7 +63,7 @@ while True:
     # In dữ liệu ra màn hình
     print(f"Nhiệt độ: {temperature:.2f} °C")
     print(f"Áp suất: {pressure:.2f} hPa")
-    
+
     # Thêm thời gian nghỉ giữa các lần đọc dữ liệu
     time.sleep(10)
 
