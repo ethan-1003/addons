@@ -1,10 +1,9 @@
-import time
 import smbus2
-import adafruit_sht31d
-import requests
+import time
 import json
+import requests
 
-# Hàm đọc cấu hình từ file options.json
+# Đọc cấu hình từ file options.json
 def load_options(file_path="/data/options.json"):
     try:
         with open(file_path, "r") as file:
@@ -19,6 +18,8 @@ def load_options(file_path="/data/options.json"):
 
 # Tải thông tin cấu hình từ options.json
 options = load_options()
+
+# Lấy cấu hình từ file
 HA_BASE_URL = options.get("api_base_url", "http://default-url")
 HA_TOKEN = options.get("api_token", "default-token")
 
@@ -33,15 +34,29 @@ HEADERS = {
     "Content-Type": "application/json",
 }
 
-# URL cho từng cảm biến
+# URL cho các cảm biến
 TEMP_SENSOR_URL = f"{HA_BASE_URL}/sensor.sht31_temperature"
 HU_SENSOR_URL = f"{HA_BASE_URL}/sensor.sht31_humidity"
 
-# Khởi tạo bus I2C với smbus2
-i2c = smbus2.SMBus(1)  # Dùng bus I2C 1 trên Raspberry Pi
+# Địa chỉ I2C của cảm biến SHT31
+SHT31_ADDRESS = 0x44
+READ_TEMP_HUM_CMD = [0x2C, 0x06]
+bus = smbus2.SMBus(1)
 
-# Khởi tạo cảm biến SHT31 với địa chỉ I2C là 0x44
-sht31 = adafruit_sht31d.SHT31D(i2c, address=0x44)
+# Hàm đọc dữ liệu từ cảm biến SHT31
+def read_sht31():
+    try:
+        bus.write_i2c_block_data(SHT31_ADDRESS, READ_TEMP_HUM_CMD[0], READ_TEMP_HUM_CMD[1:])
+        time.sleep(0.5)
+        data = bus.read_i2c_block_data(SHT31_ADDRESS, 0x00, 6)
+        temp_raw = (data[0] << 8) + data[1]
+        humidity_raw = (data[3] << 8) + data[4]
+        temperature = -45 + (175 * temp_raw / 65535.0)
+        humidity = (100 * humidity_raw / 65535.0)
+        return temperature, humidity
+    except Exception as e:
+        print(f"Error reading from SHT31: {e}")
+        return None, None
 
 # Hàm gửi dữ liệu đến Home Assistant
 def post_to_home_assistant(url, payload):
@@ -54,34 +69,35 @@ def post_to_home_assistant(url, payload):
 
 # Vòng lặp chính
 while True:
-    # Đọc dữ liệu từ cảm biến
-    temperature = sht31.temperature
-    humidity = sht31.relative_humidity
+    # Đọc dữ liệu từ cảm biến SHT31
+    temperature, humidity = read_sht31()
 
-    # Gửi dữ liệu nhiệt độ
-    temperature_payload = {
-        "state": round(temperature, 2),
-        "attributes": {
-            "unit_of_measurement": "°C",
-            "friendly_name": "Temperature",
-        },
-    }
-    post_to_home_assistant(TEMP_SENSOR_URL, temperature_payload)
+    if temperature is not None and humidity is not None:
+        # Gửi dữ liệu nhiệt độ
+        temperature_payload = {
+            "state": round(temperature, 2),
+            "attributes": {
+                "unit_of_measurement": "°C",
+                "friendly_name": "Temperature",
+            },
+        }
+        post_to_home_assistant(TEMP_SENSOR_URL, temperature_payload)
 
-    # Gửi dữ liệu độ ẩm
-    humidity_payload = {
-        "state": round(humidity, 2),
-        "attributes": {
-            "unit_of_measurement": "%",
-            "friendly_name": "Humidity",
-        },
-    }
-    post_to_home_assistant(HU_SENSOR_URL, humidity_payload)
+        # Gửi dữ liệu độ ẩm
+        humidity_payload = {
+            "state": round(humidity, 2),
+            "attributes": {
+                "unit_of_measurement": "%",
+                "friendly_name": "Humidity",
+            },
+        }
+        post_to_home_assistant(HU_SENSOR_URL, humidity_payload)
 
-    # In dữ liệu ra màn hình
-    print(f"Nhiệt độ: {temperature:.2f} °C")
-    print(f"Độ ẩm: {humidity:.2f} %")
-    print("-------------------------------")
+        # In dữ liệu ra màn hình
+        print(f"Temperature: {temperature:.2f} °C")
+        print(f"Humidity: {humidity:.2f} %")
+    else:
+        print("Failed to read data.")
 
     # Chờ 10 giây trước khi đo lại
     time.sleep(10)
