@@ -1,7 +1,7 @@
-name: "Bmp280-addon"
+name: "bmp280"
 version: "1.0.0"
 slug: "bmp280"
-description: "Addon to read BMP280 sensor data and post to Home Assistant"
+description: "Addon to read bmp280 sensor data and post to Home Assistant"
 arch:
   - armhf
   - armv7
@@ -23,13 +23,7 @@ options:
     type: string
     required: true
     example: "your_long_lived_access_token"
-  json_folder:
-    description: "Path to the folder containing JSON files"
-    type: string
-    required: true
-    example: "/data/json"
 schema:
   api_base_url: str
   api_token: str
-  json_folder: str
 
