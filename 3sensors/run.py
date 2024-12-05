@@ -53,7 +53,7 @@ HEADERS = {
 }
 TEMP_SENSOR_URL = f"{HA_BASE_URL}/sensor.sht31_temperature"
 PRESSURE_SENSOR_URL = f"{HA_BASE_URL}/sensor.bmp180_pressure"
-HUMIDITY_SENSOR_URL = f"{HA_BASE_URL}/sensor.sht31_temperature"
+HUMIDITY_SENSOR_URL = f"{HA_BASE_URL}/sensor.sht31_humidity"
 OXY_SENSOR_URL = f"{HA_BASE_URL}/sensor.Oxygen_concentration"
 def post_to_home_assistant(url, payload):
     try:
@@ -108,4 +108,3 @@ while True:
     print(f"Humidity: {humidity:.2f} %")
     print(f"Pressure: {pressure:.2f} Pa")
     time.sleep(10)
-
