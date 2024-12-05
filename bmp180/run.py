@@ -39,7 +39,7 @@ PRESSURE_SENSOR_URL = f"{HA_BASE_URL}/sensor.bmp180_pressure"
 
 # Khởi tạo cảm biến BMP180
 I2C.require_repeated_start()
-sensor = BMP085.BMP085(busnum=1)
+sensor = BMP085.BMP085(busnum=5)
 
 # Hàm gửi dữ liệu đến Home Assistant
 def post_to_home_assistant(url, payload):
