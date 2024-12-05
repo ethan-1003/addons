@@ -86,6 +86,7 @@ while True:
             "friendly_name": "Pressure",
         },
     }
+    post_to_home_assistant(PRESSURE_SENSOR_URL, pressure_payload)
     humidity_payload = {
         "state": round(humidity, 2),
         "attributes": {
