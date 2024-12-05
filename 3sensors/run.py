@@ -2,6 +2,7 @@ import time
 from Adafruit_BMP.BMP085 import BMP085
 from DFRobot_Oxygen import DFRobot_Oxygen_IIC
 import smbus2
+import json
 SHT31_ADDRESS = 0x44
 READ_TEMP_HUM_CMD = [0x2C, 0x06]
 bus = smbus2.SMBus(5)
