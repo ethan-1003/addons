@@ -13,6 +13,7 @@ RUN pip install --no-cache-dir \
     adafruit-blinka \
     RPi.GPIO \
     requests
+RUN pip install smbus
 RUN pip install smbus2
 RUN pip install adafruit-bmp
 # Sao chép mã ứng dụng vào container
