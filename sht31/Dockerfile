@@ -14,6 +14,7 @@ RUN pip install --no-cache-dir \
     RPi.GPIO \
     smbus2 \
     requests
+RUN pip install smbus2
 # Sao chép mã ứng dụng vào container
 COPY run.py /run.py
 
