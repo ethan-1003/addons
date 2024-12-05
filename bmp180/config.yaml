@@ -1,6 +1,6 @@
-name: "bmp180_1"
+name: "bmp180_org"
 version: "1.0.0"
-slug: "bmp180_1"
+slug: "bmp180_org"
 description: "Addon to read bmp180 sensor data and post to Home Assistant"
 arch:
   - armhf
@@ -11,7 +11,7 @@ arch:
 startup: application
 boot: manual
 devices:
-  - "/dev/i2c-*:rwm"
+  - "/dev/i2c-5:rwm"
 options:
   api_base_url:
     description: "Base URL of Home Assistant API"

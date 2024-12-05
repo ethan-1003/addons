@@ -1,10 +1,7 @@
-import time
-from Adafruit_BMP import BMP085
-import Adafruit_GPIO.I2C as I2C
+from Adafruit_BMP.BMP085 import BMP085
 import requests
 import json
-
-# Hàm đọc cấu hình từ file options.json
+import time
 def load_options(file_path="/data/options.json"):
     try:
         with open(file_path, "r") as file:
@@ -16,8 +13,6 @@ def load_options(file_path="/data/options.json"):
     except json.JSONDecodeError as e:
         print(f"Error decoding JSON: {e}")
         return {}
-
-# Tải thông tin cấu hình từ options.json
 options = load_options()
 HA_BASE_URL = options.get("api_base_url", "http://default-url")
 HA_TOKEN = options.get("api_token", "default-token")
@@ -36,12 +31,7 @@ HEADERS = {
 # URL cho từng cảm biến
 TEMP_SENSOR_URL = f"{HA_BASE_URL}/sensor.bmp180_temperature"
 PRESSURE_SENSOR_URL = f"{HA_BASE_URL}/sensor.bmp180_pressure"
-
-# Khởi tạo cảm biến BMP180
-I2C.require_repeated_start()
-sensor = BMP085.BMP085(busnum=5)
-
-# Hàm gửi dữ liệu đến Home Assistant
+# Khởi tạo cảm biến trên bus 5
 def post_to_home_assistant(url, payload):
     try:
         response = requests.post(url, json=payload, headers=HEADERS)
@@ -49,8 +39,8 @@ def post_to_home_assistant(url, payload):
         print(f"Data posted to {url}: {payload}")
     except requests.exceptions.RequestException as e:
         print(f"Error posting to Home Assistant: {e}")
+sensor = BMP085(busnum=5)
 
-# Vòng lặp chính
 while True:
     # Đọc dữ liệu từ cảm biến
     temperature = sensor.read_temperature()  # Nhiệt độ (°C)
@@ -83,4 +73,3 @@ while True:
 
     # Chờ 10 giây trước khi đo lại
     time.sleep(10)
-
