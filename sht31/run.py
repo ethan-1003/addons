@@ -41,7 +41,7 @@ HU_SENSOR_URL = f"{HA_BASE_URL}/sensor.sht31_humidity"
 # Địa chỉ I2C của cảm biến SHT31
 SHT31_ADDRESS = 0x44
 READ_TEMP_HUM_CMD = [0x2C, 0x06]
-bus = smbus2.SMBus(1)
+bus = smbus2.SMBus(5)
 
 # Hàm đọc dữ liệu từ cảm biến SHT31
 def read_sht31():
