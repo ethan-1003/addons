@@ -15,10 +15,6 @@ arch:
   - aarch64
   - amd64
   - armv7
-ports:
-  80/tcp: 1880
-ports_description:
-  80/tcp: Web interface
 hassio_api: true
 hassio_role: manager
 homeassistant_api: true
