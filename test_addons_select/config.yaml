@@ -11,19 +11,7 @@ arch:
 startup: "application"
 boot: "auto"
 options:
-  mode: "option1"
-  enable_feature: false
+  mode: default
 schema:
   mode:
-    type: "select"
-    name: "Mode Selection"
-    options:
-      - "option1"
-      - "option2"
-      - "option3"
-    default: "option1"
-    required: true
-  enable_feature:
-    type: "boolean"
-    name: "Enable Feature"
-    default: false
+    type: list(default|aurora|cobalt2|)?
