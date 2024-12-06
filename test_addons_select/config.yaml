@@ -14,4 +14,4 @@ options:
   mode: default
 schema:
   mode:
-    type: list(default|aurora|cobalt2|)?
+    type: list(default|aurora|cobalt2)?
