@@ -13,7 +13,6 @@ boot: "auto"
 options:
   mode: "option1"
   enable_feature: false
-  settings: []
 schema:
   mode:
     type: "select"
@@ -28,10 +27,3 @@ schema:
     type: "boolean"
     name: "Enable Feature"
     default: false
-  settings:
-    type: "list"
-    name: "Custom Settings"
-    items:
-      type: "string"
-    default: []
-
