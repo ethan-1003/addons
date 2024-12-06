@@ -1,0 +1,37 @@
+name: "test_select"
+version: "1.0"
+slug: "test_select_options"
+description: "An add-on to test select and options features."
+arch:
+  - "armhf"
+  - "armv7"
+  - "aarch64"
+  - "amd64"
+  - "i386"
+startup: "application"
+boot: "auto"
+options:
+  mode: "option1"
+  enable_feature: false
+  settings: []
+schema:
+  mode:
+    type: "select"
+    name: "Mode Selection"
+    options:
+      - "option1"
+      - "option2"
+      - "option3"
+    default: "option1"
+    required: true
+  enable_feature:
+    type: "boolean"
+    name: "Enable Feature"
+    default: false
+  settings:
+    type: "list"
+    name: "Custom Settings"
+    items:
+      type: "string"
+    default: []
+
