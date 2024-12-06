@@ -80,9 +80,9 @@ while True:
 
     # Gửi dữ liệu áp suất
     pressure_payload = {
-        "state": round(pressure, 2),
+        "state": round(pressure/100, 2),
         "attributes": {
-            "unit_of_measurement": "Pa",
+            "unit_of_measurement": "Hpa",
             "friendly_name": "Pressure",
         },
     }
