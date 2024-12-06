@@ -67,7 +67,7 @@ def post_to_home_assistant(url, payload):
 while True:
     oxygen_concentration = sensor.get_oxygen_data(collect_num=20)
     temperature, humidity = read_sht31()
-    pressure = bmp180.read_pressure()
+    pressure = bmp180.read_pressure()/100
 
     temperature_payload = {
         "state": round(temperature, 2),
@@ -106,5 +106,5 @@ while True:
     print(f"Oxygen concentration: {oxygen_concentration:.2f}%")
     print(f"Temperature: {temperature:.2f} °C")
     print(f"Humidity: {humidity:.2f} %")
-    print(f"Pressure: {pressure:.2f} Pa")
+    print(f"Pressure: {pressure:.2f} Hpa")
     time.sleep(10)
