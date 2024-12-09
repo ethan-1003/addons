@@ -1,14 +1,47 @@
-name: select
-version: dev
-slug: select
-description: "test select"
+name: "My Custom Addon"
+version: "1.0.0"
+slug: "my_custom_addon"
+description: "A custom add-on for Home Assistant."
 arch:
-  - aarch64
-  - amd64
   - armv7
-options:
-  theme: default
-  sensor: sr
+  - arm64
+  - amd64
+startup: "application"
+ports:
+  80/tcp: 8080
 schema:
-  theme: list(default|aurora|cobalt2|dark|dracula|espresso-libre|github-dark|github-dark-default|github-dark-dimmed)
-  sensor: list(bmp180|bmp280|sht31|sht45|Oxygen)
+  option_1:
+    type: boolean
+    default: false
+    name: "Enable Option 1"
+    description: "Enable or disable Option 1 functionality."
+  option_2:
+    type: boolean
+    default: true
+    name: "Enable Option 2"
+    description: "Enable or disable Option 2 functionality."
+  option_3:
+    type: string
+    default: "default_value"
+    name: "Option 3 Value"
+    description: "Provide a value for Option 3."
+  multiple_choice:
+    type: list
+    default:
+      - "choice_1"
+    name: "Multiple Choice Options"
+    description: "Choose one or more options."
+    items:
+      type: string
+      options:
+        - "choice_1"
+        - "choice_2"
+        - "choice_3"
+  advanced_settings:
+    type: map
+    name: "Advanced Settings"
+    description: "Additional advanced configurations."
+    default:
+      setting_1: "value_1"
+      setting_2: "value_2"
+
