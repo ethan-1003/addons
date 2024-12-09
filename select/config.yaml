@@ -6,8 +6,10 @@ arch:
   - aarch64
   - amd64
   - armv7
+map:
+  ssl
 options:
   theme: default
 schema:
   theme: list(default|aurora|cobalt2|dark|dracula|espresso-libre|github-dark|github-dark-default|github-dark-dimmed)
-
+  ssl: bool?
