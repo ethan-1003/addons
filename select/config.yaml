@@ -8,5 +8,7 @@ arch:
   - armv7
 options:
   theme: default
+  sensor: sr
 schema:
   theme: list(default|aurora|cobalt2|dark|dracula|espresso-libre|github-dark|github-dark-default|github-dark-dimmed)
+  sensor: list(bmp180|bmp280|sht31|sht45|Oxygen)
