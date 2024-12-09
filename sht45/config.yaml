@@ -11,7 +11,7 @@ arch:
 startup: application
 boot: manual
 devices:
-  - "/dev/i2c-1:/dev/i2c-1:rwm"
+  - "/dev/i2c-5:/dev/i2c-5:rwm"
   - "/dev/gpiomem:/dev/gpiomem"
 options:
   api_base_url:

@@ -1,9 +1,6 @@
-import smbus2
-import time
-import json
-import requests
-
-# Đọc cấu hình từ file options.json
+from SHT4x import SHT4x
+from time import sleep
+# Khởi tạo cảm biến với bus I2C 1 và địa chỉ 0x44
 def load_options(file_path="/data/options.json"):
     try:
         with open(file_path, "r") as file:
@@ -38,36 +35,6 @@ HEADERS = {
 TEMP_SENSOR_URL = f"{HA_BASE_URL}/sensor.sht45_temperature"
 HU_SENSOR_URL = f"{HA_BASE_URL}/sensor.sht45_humidity"
 
-# Địa chỉ I2C của cảm biến SHT45
-SHT45_ADDRESS = 0x44  # Địa chỉ I2C của SHT45
-READ_TEMP_HUM_CMD = [0x24, 0x00]  # Lệnh đọc nhiệt độ và độ ẩm
-
-bus = smbus2.SMBus(1)
-
-# Hàm đọc dữ liệu từ cảm biến SHT45
-def read_sht45():
-    try:
-        # Gửi lệnh đọc dữ liệu nhiệt độ và độ ẩm
-        bus.write_i2c_block_data(SHT45_ADDRESS, READ_TEMP_HUM_CMD[0], READ_TEMP_HUM_CMD[1:])
-        time.sleep(0.5)  # Đợi một chút để cảm biến phản hồi
-
-        # Đọc 6 byte dữ liệu từ cảm biến (2 byte nhiệt độ, 2 byte độ ẩm)
-        data = bus.read_i2c_block_data(SHT45_ADDRESS, 0x00, 6)
-
-        # Giải mã nhiệt độ và độ ẩm từ dữ liệu
-        temp_raw = (data[0] << 8) + data[1]
-        humidity_raw = (data[3] << 8) + data[4]
-
-        # Tính toán nhiệt độ và độ ẩm từ giá trị thô
-        temperature = -45 + (175 * temp_raw / 65535.0)
-        humidity = (100 * humidity_raw / 65535.0)
-
-        return temperature, humidity
-    except Exception as e:
-        print(f"Error reading from SHT45: {e}")
-        return None, None
-
-# Hàm gửi dữ liệu đến Home Assistant
 def post_to_home_assistant(url, payload):
     try:
         response = requests.post(url, json=payload, headers=HEADERS)
@@ -75,13 +42,15 @@ def post_to_home_assistant(url, payload):
         print(f"Data posted to {url}: {payload}")
     except requests.exceptions.RequestException as e:
         print(f"Error posting to Home Assistant: {e}")
+sensor = SHT4x(bus=5, address=0x44, mode="high")
 
-# Vòng lặp chính
+# Cập nhật dữ liệu từ cảm biến
 while True:
-    # Đọc dữ liệu từ cảm biến SHT45
-    temperature, humidity = read_sht45()
-
-    if temperature is not None and humidity is not None:
+ sensor.update()
+ temperature = sensor.temperature
+ humidity = sensor.humidity
+# In ra nhiệt độ và độ ẩm
+ if temperature is not None and humidity is not None:
         # Gửi dữ liệu nhiệt độ
         temperature_payload = {
             "state": round(temperature, 2),
@@ -108,6 +77,5 @@ while True:
     else:
         print("Failed to read data.")
 
-    # Chờ 5 giây trước khi đo lại
-    time.sleep(5)
-
+    # Chờ 10 giây trước khi đo lại
+    time.sleep(10)

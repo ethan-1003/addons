@@ -16,6 +16,6 @@ RUN pip install --no-cache-dir \
     requests
 # Sao chép mã ứng dụng vào container
 COPY run.py /run.py
-
+COPY SHT4x.py /SHT4x.py
 # Chạy script Python
 CMD ["python", "/run.py"]
