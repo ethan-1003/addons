@@ -7,6 +7,7 @@ arch:
   - amd64
   - armv7
 map:
+  - ssl
   - bmp180
   - bmp280
   - sht31
@@ -17,6 +18,7 @@ options:
   addr-sht: none
   addr-oxy: none
 schema:
+  ssl: bool
   bmp180: bool
   bmp280: bool
   sht31: bool
