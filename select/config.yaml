@@ -9,33 +9,61 @@ arch:
 
 schema:
   theme:
-    type: list
-    items:
-      type: string
-      options:
-        - default
-        - aurora
-        - cobalt2
-        - dark
-        - dracula
-        - espresso-libre
-        - github-dark
-        - github-dark-default
-        - github-dark-dimmed
-    default:
-      - default
+    type: map
+    name: "Select Themes"
+    description: "Enable or disable themes"
+    mapping:
+      default:
+        type: boolean
+        name: "Default theme"
+        description: "Enable the default theme"
+        default: true
+      aurora:
+        type: boolean
+        default: false
+      cobalt2:
+        type: boolean
+        default: false
+      dark:
+        type: boolean
+        default: false
+      dracula:
+        type: boolean
+        default: false
+      espresso-libre:
+        type: boolean
+        default: false
+      github-dark:
+        type: boolean
+        default: false
+      github-dark-default:
+        type: boolean
+        default: false
+      github-dark-dimmed:
+        type: boolean
+        default: false
 
   sensor:
-    type: list
-    items:
-      type: string
-      options:
-        - sr
-        - bmp180
-        - bmp280
-        - sht31
-        - sht45
-        - Oxygen
-    default:
-      - sr
+    type: map
+    name: "Select Sensors"
+    description: "Enable or disable sensors"
+    mapping:
+      sr:
+        type: boolean
+        default: true
+      bmp180:
+        type: boolean
+        default: false
+      bmp280:
+        type: boolean
+        default: false
+      sht31:
+        type: boolean
+        default: false
+      sht45:
+        type: boolean
+        default: false
+      Oxygen:
+        type: boolean
+        default: false
 
