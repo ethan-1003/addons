@@ -15,7 +15,9 @@ map:
   - oxygen
 options:
   theme: default
+  addr-bmp: 0x76
 schema:
+  addr-bmp: list(0x76|0x77)
   theme: list(default|aurora|cobalt2|dark|dracula|espresso-libre|github-dark|github-dark-default|github-dark-dimmed)
   ssl: bool
   bmp180: bool
