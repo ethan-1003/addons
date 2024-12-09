@@ -1,6 +1,9 @@
+import json
+import requests
 from SHT4x import SHT4x
 from time import sleep
-# Khởi tạo cảm biến với bus I2C 1 và địa chỉ 0x44
+
+# Khởi tạo cảm biến với bus I2C 5 và địa chỉ 0x44
 def load_options(file_path="/data/options.json"):
     try:
         with open(file_path, "r") as file:
@@ -42,15 +45,18 @@ def post_to_home_assistant(url, payload):
         print(f"Data posted to {url}: {payload}")
     except requests.exceptions.RequestException as e:
         print(f"Error posting to Home Assistant: {e}")
+
+# Khởi tạo cảm biến SHT4x với bus 5
 sensor = SHT4x(bus=5, address=0x44, mode="high")
 
 # Cập nhật dữ liệu từ cảm biến
 while True:
- sensor.update()
- temperature = sensor.temperature
- humidity = sensor.humidity
-# In ra nhiệt độ và độ ẩm
- if temperature is not None and humidity is not None:
+    sensor.update()
+    temperature = sensor.temperature
+    humidity = sensor.humidity
+
+    # In ra nhiệt độ và độ ẩm
+    if temperature is not None and humidity is not None:
         # Gửi dữ liệu nhiệt độ
         temperature_payload = {
             "state": round(temperature, 2),
@@ -78,4 +84,5 @@ while True:
         print("Failed to read data.")
 
     # Chờ 10 giây trước khi đo lại
-    time.sleep(10)
+    sleep(10)
+
