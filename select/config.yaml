@@ -14,9 +14,9 @@ map:
   - sht45
   - oxygen
 options:
-  addr-bmp: none
+  addr: none
 schema:
-  addr-bmp: list(none|0x76|0x77)
+  addr: list(none|0x76|0x77)
   ssl: bool
   bmp180: bool
   bmp280: bool
