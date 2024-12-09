@@ -1,47 +1,49 @@
-name: "My Custom Addon"
-version: "1.0.0"
-slug: "my_custom_addon"
-description: "A custom add-on for Home Assistant."
+name: select
+version: dev
+slug: select
+description: "test select"
 arch:
-  - armv7
-  - arm64
+  - aarch64
   - amd64
-startup: "application"
-ports:
-  80/tcp: 8080
+  - armv7
+options:
+  theme:
+    - default
+  sensor:
+    - sr
 schema:
-  option_1:
-    type: boolean
-    default: false
-    name: "Enable Option 1"
-    description: "Enable or disable Option 1 functionality."
-  option_2:
-    type: boolean
-    default: true
-    name: "Enable Option 2"
-    description: "Enable or disable Option 2 functionality."
-  option_3:
-    type: string
-    default: "default_value"
-    name: "Option 3 Value"
-    description: "Provide a value for Option 3."
-  multiple_choice:
+  theme:
     type: list
-    default:
-      - "choice_1"
-    name: "Multiple Choice Options"
-    description: "Choose one or more options."
+    name: "Theme List"
+    description: "Add one or more themes"
     items:
-      type: string
+      type: select
       options:
-        - "choice_1"
-        - "choice_2"
-        - "choice_3"
-  advanced_settings:
-    type: map
-    name: "Advanced Settings"
-    description: "Additional advanced configurations."
+        - default
+        - aurora
+        - cobalt2
+        - dark
+        - dracula
+        - espresso-libre
+        - github-dark
+        - github-dark-default
+        - github-dark-dimmed
     default:
-      setting_1: "value_1"
-      setting_2: "value_2"
+      - default
+
+  sensor:
+    type: list
+    name: "Sensor List"
+    description: "Add one or more sensors"
+    items:
+      type: select
+      options:
+        - sr
+        - bmp180
+        - bmp280
+        - sht31
+        - sht45
+        - Oxygen
+    default:
+      - sr
 
