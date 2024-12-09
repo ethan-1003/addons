@@ -7,10 +7,10 @@ arch:
   - amd64
   - armv7
 map:
-  bmp180
+  ssl
 options:
   theme: default
 schema:
   theme: list(default|aurora|cobalt2|dark|dracula|espresso-libre|github-dark|github-dark-default|github-dark-dimmed)
-  bmp180: bool
+  ssl: bool
 
