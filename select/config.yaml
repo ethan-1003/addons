@@ -1,0 +1,13 @@
+name: select
+version: dev
+slug: select
+description: "test select"
+arch:
+  - aarch64
+  - amd64
+  - armv7
+options:
+  theme: default
+schema:
+  log_level: list(trace|debug|info|notice|warning|error|fatal)?
+  theme: list(default|aurora|cobalt2|dark|dracula|espresso-libre|github-dark|github-dark-default|github-dark-dimmed)
