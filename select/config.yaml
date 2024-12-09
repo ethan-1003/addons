@@ -15,11 +15,11 @@ options:
 
 schema:
   theme:
-    type: list
+    type: list?
     name: "Theme List"
     description: "Add one or more themes"
     items:
-      type: string
+      type: str?
       options:
         - default
         - aurora
@@ -34,11 +34,11 @@ schema:
       - default
 
   sensor:
-    type: list
+    type: list?
     name: "Sensor List"
     description: "Add one or more sensors"
     items:
-      type: string
+      type: str?
       options:
         - sr
         - bmp180
