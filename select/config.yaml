@@ -6,9 +6,36 @@ arch:
   - aarch64
   - amd64
   - armv7
-options:
-  theme: default
-  sensor: sr
+
 schema:
-  theme: list(default|aurora|cobalt2|dark|dracula|espresso-libre|github-dark|github-dark-default|github-dark-dimmed)
-  sensor: list(sr|bmp180|bmp280|sht31|sht45|Oxygen)
+  theme:
+    type: list
+    items:
+      type: string
+      options:
+        - default
+        - aurora
+        - cobalt2
+        - dark
+        - dracula
+        - espresso-libre
+        - github-dark
+        - github-dark-default
+        - github-dark-dimmed
+    default:
+      - default
+
+  sensor:
+    type: list
+    items:
+      type: string
+      options:
+        - sr
+        - bmp180
+        - bmp280
+        - sht31
+        - sht45
+        - Oxygen
+    default:
+      - sr
+
