@@ -19,6 +19,6 @@ RUN pip install adafruit-bmp
 # Sao chép mã ứng dụng vào container
 COPY run.py /run.py
 COPY DFRobot_Oxygen.py /DFRobot_Oxygen.py
-COPY options.json /data/options.json
+#COPY options.json /data/options.json
 # Chạy script Python
 CMD ["python", "/run.py"]
