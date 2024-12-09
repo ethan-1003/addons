@@ -6,18 +6,20 @@ arch:
   - aarch64
   - amd64
   - armv7
+
 options:
   theme:
     - default
   sensor:
     - sr
+
 schema:
   theme:
     type: list
     name: "Theme List"
     description: "Add one or more themes"
     items:
-      type: select
+      type: string
       options:
         - default
         - aurora
@@ -36,7 +38,7 @@ schema:
     name: "Sensor List"
     description: "Add one or more sensors"
     items:
-      type: select
+      type: string
       options:
         - sr
         - bmp180
