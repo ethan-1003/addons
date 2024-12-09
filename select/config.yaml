@@ -14,13 +14,17 @@ map:
   - sht45
   - oxygen
 options:
-  addr: none
+  addr-bmp: none
+  addr-sht: none
+  addr-oxy: none
 schema:
-  addr: list(none|0x76|0x77)
   ssl: bool
   bmp180: bool
   bmp280: bool
   sht31: bool
   sht45: bool
   oxygen: bool
+  addr-bmp: list(none|0x76|0x77)
+  addr-sht: list(none|0x44|0x45)
+  addr-oxy: list(none|0x70|0x71|0x72|0x73)
 
