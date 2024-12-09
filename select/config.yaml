@@ -8,15 +8,9 @@ arch:
   - armv7
 map:
   - bmp180
-  - bmp280
-  - sht31 
-  - sht45
 options:
   theme: default
 schema:
   theme: list(default|aurora|cobalt2|dark|dracula|espresso-libre|github-dark|github-dark-default|github-dark-dimmed)
   bmp180: bool
-  bmp280: bool
-  sht31: bool
-  sht45: bool
 
