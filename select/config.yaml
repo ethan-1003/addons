@@ -11,7 +11,6 @@ map:
   - bmp280
   - sht31 
   - sht45
-  - oxygen
 options:
   theme: default
 schema:
@@ -20,5 +19,4 @@ schema:
   bmp280: bool
   sht31: bool
   sht45: bool
-  oxygen: bool
 
