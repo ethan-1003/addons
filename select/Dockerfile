@@ -1,15 +1,24 @@
 FROM python:3.10-slim
 
-# Cài đặt các gói cần thiết
-RUN apt-get update && apt-get install -y \
-    libgpiod-dev \
-    && apt-get clean
+# Cài đặt các công cụ cần thiết cho việc biên dịch và xử lý GPIO
+RUN apt update && apt install -y \
+    python3-dev \
+    build-essential \
+    gcc \
+    libgpiod-dev
 
-# Tạo thư mục làm việc
-WORKDIR /app
-
-# Copy mã nguồn
-COPY run.py .
-
-# Chạy ứng dụng
-CMD ["python3", "run.py"]
+# Cài đặt các thư viện Python cần thiết
+RUN pip install --no-cache-dir \
+    adafruit-circuitpython-dht \
+    adafruit-blinka \
+    RPi.GPIO \
+    requests
+RUN pip install smbus
+RUN pip install smbus2
+RUN pip install adafruit-bmp
+# Sao chép mã ứng dụng vào container
+COPY run.py /run.py
+COPY DFRobot_Oxygen.py /DFRobot_Oxygen.py
+COPY options.json /data/options.json
+# Chạy script Python
+CMD ["python", "/run.py"]
