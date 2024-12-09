@@ -33,5 +33,5 @@ schema:
   addr-bmp: list(none|0x76|0x77)
   addr-sht: list(none|0x44|0x45)
   addr-oxy: list(none|0x70|0x71|0x72|0x73)
-device:
-  - "/dev/i2c-5"
+devices:
+  - "/dev/i2c-5:rwm"
