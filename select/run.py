@@ -1,9 +1,12 @@
 import time
 import json
 import requests
-from Adafruit_BMP.BMP085 import BMP085
+from bmp280 import BMP280  # Đảm bảo bạn đã cài đặt thư viện bmp280
+from smbus2 import SMBus
+from Adafruit_BMP.BMP085 import BMP085  # BMP180
 from DFRobot_Oxygen import DFRobot_Oxygen_IIC
 import smbus2
+from SHT4x import SHT4x  # Import thư viện SHT4x
 
 class SensorManager:
     def __init__(self, options_path="/data/options.json"):
@@ -26,12 +29,16 @@ class SensorManager:
 
         # Khởi tạo các cảm biến nếu chúng được bật trong cấu hình
         if self.options.get("bmp180", False):
-            self.bmp180 = BMP085(busnum=5)
+            self.bmp180 = BMP085(busnum=5)  # BMP180
+        if self.options.get("bmp280", False):  # Thêm BMP280
+            self.bmp280 = BMP280(i2c_dev=self.bus)  # Khởi tạo BMP280 với bus I2C
         if self.options.get("oxygen", False):
             self.oxygen_sensor = DFRobot_Oxygen_IIC(5, int(self.options.get("addr-oxy", "0x73"), 16))
         if self.options.get("sht31", False):
             self.sht31_address = int(self.options.get("addr-sht", "0x44"), 16)
             self.read_temp_hum_cmd = [0x2C, 0x06]
+        if self.options.get("sht45", False):  # SHT45
+            self.sht45_sensor = SHT4x(bus=5, address=0x44, mode="high")  # Khởi tạo cảm biến SHT45
 
     def load_options(self, file_path):
         try:
@@ -60,10 +67,21 @@ class SensorManager:
             print(f"Error reading from SHT31: {e}")
             return None, None
 
+    def read_sht45(self):
+        try:
+            # Đọc nhiệt độ và độ ẩm từ cảm biến SHT45
+            self.sht45_sensor.update()  # Cập nhật dữ liệu từ cảm biến SHT45
+            temperature = self.sht45_sensor.temperature
+            humidity = self.sht45_sensor.humidity
+            return temperature, humidity
+        except Exception as e:
+            print(f"Error reading from SHT45: {e}")
+            return None, None
+
     def post_to_home_assistant(self, url, payload):
         try:
             response = requests.post(url, json=payload, headers=self.headers)
-            response.raise_for_status()
+            response.raise_for_status()  # Kích hoạt ngoại lệ nếu có lỗi HTTP
             print(f"Data posted to {url}: {payload}")
         except requests.exceptions.RequestException as e:
             print(f"Error posting to Home Assistant: {e}")
@@ -88,7 +106,38 @@ class SensorManager:
                     }
                 )
                 print(f"Oxygen concentration: {oxygen_concentration:.2f}%")
-            
+
+            # Đọc và gửi dữ liệu từ cảm biến SHT45 nếu được bật
+            if self.options.get("sht45", False):
+                temperature, humidity = self.read_sht45()
+                if temperature is not None and humidity is not None:
+                    sensor_data.append(
+                        {
+                            "url": f"{self.ha_base_url}/sensor.sht45_temperature",
+                            "payload": {
+                                "state": round(temperature, 2),
+                                "attributes": {
+                                    "unit_of_measurement": "°C",
+                                    "friendly_name": "Temperature",
+                                },
+                            },
+                        }
+                    )
+                    sensor_data.append(
+                        {
+                            "url": f"{self.ha_base_url}/sensor.sht45_humidity",
+                            "payload": {
+                                "state": round(humidity, 2),
+                                "attributes": {
+                                    "unit_of_measurement": "%",
+                                    "friendly_name": "Humidity",
+                                },
+                            },
+                        }
+                    )
+                    print(f"SHT45 Temperature: {temperature:.2f} °C")
+                    print(f"SHT45 Humidity: {humidity:.2f} %")
+
             # Đọc và gửi dữ liệu từ cảm biến SHT31 nếu được bật
             if self.options.get("sht31", False):
                 temperature, humidity = self.read_sht31()
@@ -117,8 +166,8 @@ class SensorManager:
                             },
                         }
                     )
-                    print(f"Temperature: {temperature:.2f} °C")
-                    print(f"Humidity: {humidity:.2f} %")
+                    print(f"SHT31 Temperature: {temperature:.2f} °C")
+                    print(f"SHT31 Humidity: {humidity:.2f} %")
 
             # Đọc và gửi dữ liệu từ cảm biến BMP180 nếu được bật
             if self.options.get("bmp180", False):
@@ -135,14 +184,44 @@ class SensorManager:
                         },
                     }
                 )
-                print(f"Pressure: {pressure:.2f} Hpa")
+                print(f"BMP180 Pressure: {pressure / 100:.2f} hPa")
+
+            # Đọc và gửi dữ liệu từ cảm biến BMP280 nếu được bật
+            if self.options.get("bmp280", False):
+                temperature_bmp280 = self.bmp280.get_temperature()
+                pressure_bmp280 = self.bmp280.get_pressure()
+                sensor_data.append(
+                    {
+                        "url": f"{self.ha_base_url}/sensor.bmp280_temperature",
+                        "payload": {
+                            "state": round(temperature_bmp280, 2),
+                            "attributes": {
+                                "unit_of_measurement": "°C",
+                                "friendly_name": "Temperature",
+                            },
+                        },
+                    }
+                )
+                sensor_data.append(
+                    {
+                        "url": f"{self.ha_base_url}/sensor.bmp280_pressure",
+                        "payload": {
+                            "state": round(pressure_bmp280, 2),  # Đã sửa lại, không chia cho 100 nữa
+                            "attributes": {
+                                "unit_of_measurement": "Pa",
+                                "friendly_name": "Pressure",
+                            },
+                        },
+                    }
+                )
+                print(f"BMP280 Temperature: {temperature_bmp280:.2f} °C")
+                print(f"BMP280 Pressure: {pressure_bmp280:.2f} Pa")
 
             # Gửi dữ liệu lên Home Assistant
             for data in sensor_data:
                 self.post_to_home_assistant(data["url"], data["payload"])
 
             time.sleep(10)
-
 if __name__ == "__main__":
     sensor_manager = SensorManager()
     sensor_manager.run()
