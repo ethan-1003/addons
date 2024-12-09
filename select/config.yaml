@@ -7,24 +7,10 @@ arch:
   - amd64
   - armv7
 map:
-  - bmp180
-  - bmp280
-  - sht31
-  - sht45
-  - oxygen
+  - ssl
 options:
   theme: default
-  addr_bmp: 0x76
-  addr_sht: 0x44
-  addr_oxy: 0x70
 schema:
   theme: list(default|aurora|cobalt2|dark|dracula|espresso-libre|github-dark|github-dark-default|github-dark-dimmed)
-  addr_bmp: list(0x76|0x77)
-  addr_sht: list(0x44|0x45)
-  addr_oxy: list(0x70|0x71|0x72|0x73)
-  bmp180: bool
-  bmp280: bool
-  sht31: bool
-  sht45: bool
-  oxygen: bool
+  ssl: bool
 
