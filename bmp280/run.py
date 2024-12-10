@@ -1,4 +1,4 @@
-from bmp280_driver import BMP280
+from library.bmp280_driver import BMP280
 import smbus2  # Thư viện giao tiếp I2C
 
 # Khởi tạo I2C bus
