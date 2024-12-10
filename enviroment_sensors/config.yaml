@@ -1,7 +1,7 @@
 name: enviroment_sensors
 version: dev
 slug: enviroment
-description: "test select"
+description: "this is an addon to collect indicator of enviroment"
 arch:
   - aarch64
   - amd64
