@@ -17,7 +17,7 @@ options:
   addr-bmp: none
   addr-sht: none
   addr-oxy: none
-  api_base_url:
+  api_base_url: "http://192.168.137.233:8123/api/states"
     required: true
   api_token:
     required: true
