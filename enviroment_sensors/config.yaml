@@ -1,7 +1,7 @@
-name: select
+name: enviroment_sensors
 version: dev
-slug: select
-description: "this is an addons collect indicator of enviroment"
+slug: enviroment
+description: "test select"
 arch:
   - aarch64
   - amd64
@@ -33,7 +33,7 @@ schema:
   ssl: bool
   bmp180: bool
   bmp280: bool
-  sht31: bools
+  sht31: bool
   sht45: bool
   oxygen: bool
   addr-bmp: list(none|0x76|0x77)
@@ -41,4 +41,3 @@ schema:
   addr-oxy: list(none|0x70|0x71|0x72|0x73)
 devices:
   - "/dev/i2c-5:rwm"
-
