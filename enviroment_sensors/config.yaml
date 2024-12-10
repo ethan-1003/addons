@@ -1,6 +1,6 @@
-name: enviroment_sensors
-version: "1.0.0"
-slug: enviroment_sensors
+name: select
+version: dev
+slug: select
 description: "this is an addons collect indicator of enviroment"
 arch:
   - aarch64
