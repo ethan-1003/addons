@@ -1,0 +1,44 @@
+name: select_rp
+version: dev
+slug: select_rp
+description: "test select_rp"
+arch:
+  - aarch64
+  - amd64
+  - armv7
+map:
+  - ssl
+  - bmp180
+  - bmp280
+  - sht31
+  - sht45
+  - oxygen
+options:
+  addr-bmp: none
+  addr-sht: none
+  addr-oxy: none
+  api_base_url:
+    required: true
+  api_token:
+    required: true
+  ssl: false
+  bmp180: false
+  bmp280: false
+  sht31: false
+  sht45: false
+  oxygen: false
+schema:
+  api_base_url: str
+  api_token: str
+  ssl: bool
+  bmp180: bool
+  bmp280: bool
+  sht31: bool
+  sht45: bool
+  oxygen: bool
+  addr-bmp: list(none|0x76|0x77)
+  addr-sht: list(none|0x44|0x45)
+  addr-oxy: list(none|0x70|0x71|0x72|0x73)
+devices:
+  - "/dev/i2c-1:rwm"
+
