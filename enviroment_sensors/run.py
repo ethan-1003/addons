@@ -1,11 +1,11 @@
 import time
 import json
 import requests
-from bmp280_driver import BMP280  # Thay thế thư viện cũ bằng bmp280_driver
+from library.bmp280_driver import BMP280  # Thay thế thư viện cũ bằng bmp280_driver
 from smbus2 import SMBus
 from Adafruit_BMP.BMP085 import BMP085  # BMP180
-from DFRobot_Oxygen import DFRobot_Oxygen_IIC
-from SHT4x import SHT4x  # Import thư viện SHT4x
+from library.DFRobot_Oxygen import DFRobot_Oxygen_IIC
+from library.SHT4x import SHT4x  # Import thư viện SHT4x
 
 class SensorManager:
     def __init__(self, options_path="/data/options.json"):
