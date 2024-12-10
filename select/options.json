@@ -2,12 +2,12 @@
   "addr-bmp": "0x77",
   "addr-sht": "0x44",
   "addr-oxy": "0x73",
-  "api_base_url": "http://192.168.137.233:8123/api/states",
+  "api_base_url": "http://192.168.137.140:8123/api/states",
   "api_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJiN2RhYjkxY2Y0NGY0OTY2YTQ4MzcwZjQ3NTJkYjcyNCIsImlhdCI6MTczMzM2NDk3NSwiZXhwIjoyMDQ4NzI0OTc1fQ.Oc1P_51ZOJnwNeJFbR-JbVFTfYfn3WbvSGHpkurx-y4",
   "bmp180": true,
-  "sht31": true,
+  "sht31": false,
   "oxygen": true,
   "bmp280": false,
   "ssl": false,
-  "sht45": false
+  "sht45": true
 }
