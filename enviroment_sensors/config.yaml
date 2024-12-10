@@ -1,6 +1,6 @@
-name: enviroment-sensors
+name: enviroment_sensors
 version: 1.0.0
-slug: enviroment-sensors
+slug: enviroment_sensors
 description: "this is an addons collect indicator of enviroment"
 arch:
   - aarch64
