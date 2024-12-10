@@ -14,7 +14,8 @@ RUN pip install --no-cache-dir \
     RPi.GPIO \
     requests
 RUN pip install smbus
-RUN pip install bmp280
+COPY bmp280_driver.py /bmp280_driver.py
+RUN pip install i2cdevice
 # Sao chép mã ứng dụng vào container
 COPY run.py /run.py
 
