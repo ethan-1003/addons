@@ -1,5 +1,5 @@
 name: enviroment_sensors
-version: 1.0.0
+version: "1.0.0"
 slug: enviroment_sensors
 description: "this is an addons collect indicator of enviroment"
 arch:
