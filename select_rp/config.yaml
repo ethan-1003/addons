@@ -8,7 +8,7 @@ arch:
   - armv7
 map:
   - ssl
-  - temperture
+  - temperature
   - humidity
   - oxygen-concentration
   - pressure
@@ -21,14 +21,14 @@ options:
   api_token:
     required: true
   ssl: false
-  temperture: false
+  temperature: false
   humidity: false
   oxygen-concentration: false
   pressure: false
 schema:
   api_base_url: str?
   api_token: str?
-  tempurture: bool
+  temperature: bool
   humidity: bool
   oxygen-concentration: bool
   pressure: bool
