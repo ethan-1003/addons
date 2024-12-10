@@ -16,11 +16,12 @@ RUN pip install --no-cache-dir \
 RUN pip install smbus
 RUN pip install smbus2
 RUN pip install adafruit-bmp
-RUN pip install bmp280
+RUN pip install i2cdevice
 # Sao chép mã ứng dụng vào container
 COPY run.py /run.py
 COPY DFRobot_Oxygen.py /DFRobot_Oxygen.py
 COPY SHT4x.py /SHT4x.py
+COPY bmp280_driver.py /bmp280_driver.py
 #COPY options.json /data/options.json
 # Chạy script Python
 CMD ["python", "/run.py"]
