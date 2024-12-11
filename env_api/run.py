@@ -9,6 +9,7 @@ from Adafruit_BMP.BMP085 import BMP085
 from library.DFRobot_Oxygen import DFRobot_Oxygen_IIC
 from library.SHT4x import SHT4x
 
+
 class SensorManager:
     def __init__(self, options_path="/data/options.json"):
         # Đọc các tùy chọn từ file options.json
@@ -32,19 +33,23 @@ class SensorManager:
         # Khởi tạo các cảm biến nếu chúng được bật trong cấu hình
         if self.options.get("bmp180", False):
             self.bmp180 = BMP085(busnum=5)  # BMP180
+
         if self.options.get("bmp280", False):
-            self.bmp280 = BMP280(i2c_addr=int(self.options.get("addr-bmp", "0x76"), 16), i2c_dev=self.bus)
+            self.bmp280 = BMP280(i2c_addr=0x76, i2c_dev=self.bus)
             self.bmp280.setup(
                 mode="normal",
                 temperature_oversampling=16,
                 pressure_oversampling=16,
                 temperature_standby=500
             )
+
         if self.options.get("oxygen", False):
-            self.oxygen_sensor = DFRobot_Oxygen_IIC(5, int(self.options.get("addr-oxy", "0x73"), 16))
+            self.oxygen_sensor = DFRobot_Oxygen_IIC(5, 0x73)
+
         if self.options.get("sht31", False):
-            self.sht31_address = int(self.options.get("addr-sht", "0x44"), 16)
+            self.sht31_address = 0x44
             self.read_temp_hum_cmd = [0x2C, 0x06]
+
         if self.options.get("sht45", False):
             self.sht45_sensor = SHT4x(bus=5, address=0x44, mode="high")
 
@@ -85,7 +90,7 @@ class SensorManager:
         RH = relative_humidity / 100.0
         Mw = 18.01528  # Khối lượng phân tử nước
         R = 8314.3  # Hằng số khí lý tưởng
-        es = 6.112 * math.exp((17.67 * T) / (T + 243.5)) * 100 # Áp suất hơi bão hòa (hPa)
+        es = 6.112 * math.exp((17.67 * T) / (T + 243.5)) * 100  # Áp suất hơi bão hòa (hPa)
         absolute_humidity = (es * RH * Mw) / (R * (T + 273.15)) * 1000  # g/m³
         return absolute_humidity
 
@@ -190,6 +195,7 @@ class SensorManager:
                     print(f"Error reading Oxygen sensor: {e}")
 
             time.sleep(10)
+
 
 if __name__ == "__main__":
     sensor_manager = SensorManager()
