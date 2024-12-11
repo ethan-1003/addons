@@ -18,8 +18,8 @@ RUN pip install smbus2
 RUN pip install adafruit-bmp
 RUN pip install i2cdevice
 # Sao chép mã ứng dụng vào container
-COPY run1.py /run1.py
+COPY run.py /run.py
 COPY library /library
 #COPY options.json /data/options.json
 # Chạy script Python
-CMD ["python", "/run1.py"]
+CMD ["python", "/run.py"]
