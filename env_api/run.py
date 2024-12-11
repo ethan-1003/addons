@@ -85,8 +85,8 @@ class SensorManager:
         RH = relative_humidity / 100.0
         Mw = 18.01528  # Khối lượng phân tử nước
         R = 8314.3  # Hằng số khí lý tưởng
-        es = 6.112 * math.exp((17.67 * T) / (T + 243.5))  # Áp suất hơi bão hòa (hPa)
-        absolute_humidity = (es * RH * Mw) / (R * (T + 273.15)) * 100  # g/m³
+        es = 6.112 * math.exp((17.67 * T) / (T + 243.5)) * 100 # Áp suất hơi bão hòa (hPa)
+        absolute_humidity = (es * RH * Mw) / (R * (T + 273.15)) * 1000  # g/m³
         return absolute_humidity
 
     def calculate_dew_point(self, temperature, relative_humidity):
