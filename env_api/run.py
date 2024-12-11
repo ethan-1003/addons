@@ -96,6 +96,38 @@ class SensorManager:
         dew_point = (243.5 * gamma) / (17.67 - gamma)
         return dew_point
 
+    def read_sht31(self):
+        try:
+            self.bus.write_i2c_block_data(self.sht31_address, self.read_temp_hum_cmd[0], self.read_temp_hum_cmd[1:])
+            time.sleep(0.5)
+            data = self.bus.read_i2c_block_data(self.sht31_address, 0x00, 6)
+            temp_raw = (data[0] << 8) + data[1]
+            humidity_raw = (data[3] << 8) + data[4]
+            temperature = -45 + (175 * temp_raw / 65535.0)
+            humidity = (100 * humidity_raw / 65535.0)
+            return temperature, humidity
+        except Exception as e:
+            print(f"Error reading SHT31: {e}")
+            return None, None
+
+    def read_sht45(self):
+        try:
+            self.sht45_sensor.update()
+            temperature = self.sht45_sensor.temperature
+            humidity = self.sht45_sensor.humidity
+            return temperature, humidity
+        except Exception as e:
+            print(f"Error reading SHT45: {e}")
+            return None, None
+
+    def read_oxygen(self):
+        try:
+            oxygen_concentration = self.oxygen_sensor.get_oxygen_data(collect_num=20)
+            return oxygen_concentration
+        except Exception as e:
+            print(f"Error reading Oxygen sensor: {e}")
+            return None
+
     def run(self):
         while True:
             # Đọc và gửi dữ liệu từ BMP180
