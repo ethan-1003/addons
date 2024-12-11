@@ -33,3 +33,5 @@ schema:
   addr-oxy: list(0x70|0x71|0x72|0x73)
 devices:
   - "/dev/i2c-5:rwm"
+homeassistant_api: true
+hassio_api: true
