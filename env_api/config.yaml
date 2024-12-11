@@ -1,6 +1,6 @@
-name: env_api
+name: test_sp-api
 version: dev
-slug: env_api
+slug: test_sp-api
 description: "test_sp_api"
 arch:
   - aarch64
