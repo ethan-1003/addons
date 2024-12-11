@@ -1,0 +1,18 @@
+name: "bmp180"
+version: "1.0.0"
+slug: "bmp180"
+description: "Addon to read bmp180 sensor data and post to Home Assistant"
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+startup: application
+boot: manual
+devices:
+  - "/dev/i2c-5:rwm"
+homeassistant_api: true
+hassio_api: true
+options: {}
+schema: {}
