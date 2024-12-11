@@ -13,8 +13,8 @@ class SensorManager:
         self.options = self.load_options(options_path)
 
         # Lấy thông tin cấu hình của Home Assistant
-        self.ha_base_url = self.options.get("api_base_url", "http://default-url")
-        self.ha_token = self.options.get("api_token", "default-token")
+        self.ha_base_url = self.options.get("base_url", "http://default-url")
+        self.ha_token = self.options.get("token", "default-token")
         self.validate_config()
 
         # Khởi tạo headers cho việc gửi dữ liệu lên Home Assistant
