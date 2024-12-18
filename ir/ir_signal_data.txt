@@ -1,0 +1,9 @@
+LOW trong 0.000070 giây
+HIGH trong 6.646472 giây
+LOW trong 0.000074 giây
+HIGH trong 3.421687 giây
+LOW trong 0.518151 giây
+HIGH trong 0.299004 giây
+LOW trong 0.252088 giây
+
+Chuỗi nhị phân giải mã:
